@@ -34,26 +34,74 @@ int main()
                         insertListRecord(citiesList, cityName, xPos, yPos, numCities);
                         break;
 
+                    case 2: // Search for record by name
+                        cityName = getCityName();
+                        searchListByName(citiesList, cityName, numCities);
+                        break;
+
+                    case 3: // Search for record by coordinate
+                        xPos = getXPos();
+                        yPos = getYPos();
+                        searchListByCoord(citiesList, xPos, yPos, numCities);
+                        break;
+                    
+                    case 4: // Delete a record by name
+                        cityName = getCityName();
+                        deleteListRecordByName(citiesList, cityName, numCities);
+                        break;
+
+                    case 5: // Delete a record by coordinate
+                        xPos = getXPos();
+                        yPos = getYPos();
+                        deleteListRecordByCoord(citiesList, xPos, yPos, numCities);
+                        break;
+
+                    case 6: // Print records within a given distance of a specific location
+
+                        break;
+
                     case 7:
                         printListRecords(citiesList, numCities);
                         break;
 
-
                     case 8:
-                        exit = true; // shut this bitch down
+                        exit = true; 
                         break;
                 }
                 break;
             case 'B':
                 switch (operation)
                 {
-                    case 1:
-                        // do some other shit
-                        cout << "I'm just putting this here so this mfer builds";
-                        break;
-                    case 8:
-                        exit = true;
-                        break;
+                case 1: // Insert a record
+
+                    break;
+
+                case 2: // Search for record by name
+
+                    break;
+
+                case 3: // Search for record by coordinate
+
+                    break;
+
+                case 4: // Delete a record by name
+
+                    break;
+
+                case 5: // Delete a record by coordinate
+
+                    break;
+                case 6: // Print records within a given distance of a specific location
+
+                    break;
+
+                case 7: // Print all records
+
+                    break;
+
+                case 8:
+                    exit = true;
+                    break;
                 }
                 break;
         }

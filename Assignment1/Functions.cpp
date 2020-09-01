@@ -105,20 +105,128 @@ float getYPos(void)
 
 void insertListRecord(cityData cityList[], string cityName, float xPos, float yPos, int& numCities)
 {
-
+    bool duplicate = false;
     if (numCities < ARRAYSIZE)
     {
-        cityData newEntry;
-        newEntry.cityName = cityName;
-        newEntry.xPos = xPos;
-        newEntry.yPos = yPos;
-        cityList[numCities] = newEntry;
-        numCities++;
-        cout << endl << "Record inserted successfully." << endl;
+        for (int i = 0; i < numCities; ++i)
+        {
+            if (cityList[i].cityName == cityName && cityList[i].xPos == xPos && cityList[i].yPos == yPos)
+            {
+                duplicate = true;
+            }
+        }
+        if (duplicate == false)
+        {
+            cityData newEntry;
+            newEntry.cityName = cityName;
+            newEntry.xPos = xPos;
+            newEntry.yPos = yPos;
+            cityList[numCities] = newEntry;
+            numCities++;
+            cout << endl << "Record inserted successfully." << endl;
+        }
+        else
+        {
+            cout << "No need to insert again, as this record exists in the existing data set." << endl;
+        }
     }
     else
     {
         cout << endl << "Array is full. Please delete an entry first." << endl;
+    }
+}
+
+void searchListByName(cityData cityList[], string cityName, int& numCities)
+{
+    bool found = false;
+    for (int i = 0; i < numCities; ++i)
+    {
+        if (cityList[i].cityName == cityName)
+        {
+            if (found == false)
+            {
+                cout << endl << "Output:" << endl;
+            }
+            found = true;
+            cout << cityList[i].cityName << ", (" << cityList[i].xPos << ", " << cityList[i].yPos << ")" << endl;
+        }
+    }
+    if (found == false)
+    {
+        cout << "No such record exists in the existing data set" << endl;
+    }
+}
+
+void searchListByCoord(cityData cityList[], float xPos, float yPos, int& numCities)
+{
+    bool found = false;
+    for (int i = 0; i < numCities; ++i)
+    {
+        if (cityList[i].xPos == xPos && cityList[i].yPos == yPos)
+        {
+            if (found == false)
+            {
+                cout << endl << "Output:" << endl;
+            }
+            found = true;
+            cout << cityList[i].cityName << ", (" << cityList[i].xPos << ", " << cityList[i].yPos << ")" << endl;
+        }
+    }
+    if (found == false)
+    {
+        cout << "No such record exists in the existing data set" << endl;
+    }
+}
+
+void deleteListRecordByName(cityData cityList[], string cityName, int& numCities)
+{
+    int index = -1;
+    for (int i = 0; i < numCities; ++i)
+    {
+        if (cityList[i].cityName == cityName)
+        {
+            index = i;
+            break; // Assume we are only going to delete the first matching name record
+        }
+    }
+    if (index > -1)
+    {
+        --numCities;
+        for (index; index < numCities; ++index)
+        {
+            cityList[index] = cityList[index + 1];
+        }
+        cout << "Deleted successfully" << endl;
+    }
+    else
+    {
+        cout << "No such record exists in the existing data set" << endl;
+    }
+}
+
+void deleteListRecordByCoord(cityData cityList[], float xPos, float yPos, int& numCities)
+{
+    int index = -1;
+    for (int i = 0; i < numCities; ++i)
+    {
+        if (cityList[i].xPos == xPos and cityList[i].yPos == yPos)
+        {
+            index = i;
+            break; // Assume we are only going to delete the first matching coord record
+        }
+    }
+    if (index > -1)
+    {
+        --numCities;
+        for (index; index < numCities; ++index)
+        {
+            cityList[index] = cityList[index + 1];
+        }
+        cout << "Deleted successfully" << endl;
+    }
+    else
+    {
+        cout << "No such record exists in the existing data set" << endl;
     }
 }
 
