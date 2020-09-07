@@ -1,11 +1,38 @@
 #include "Header.h"
 #include <iostream>
+#include <chrono>
+#include <cmath>
+#include <iomanip>
+#include <string>
 
 using std::cout;
 using std::cin;
 using std::endl;
 using std::string;
+using std::ifstream;
+using namespace std::chrono;
 
+bool timingMode = true;
+
+void importDataList(cityData cityList[], int& numCities)
+{
+    ifstream file;
+    file.open("Assignment_1_ Test Data.txt", std::ios::in);
+    if (file.is_open())
+    {
+        cityData newEntry;
+        while (!(std::getline(file, newEntry.cityName, ':').eof()))
+        {
+            string name = newEntry.cityName;
+            name.erase(std::remove(name.begin(), name.end(), '\n'), name.end());
+            file >> newEntry.xPos;
+            file >> newEntry.yPos;
+            insertListRecord(cityList, name, newEntry.xPos, newEntry.yPos, numCities);
+        }
+
+    }
+
+}
 
 char getImplementationOption(void)
 {
@@ -57,17 +84,10 @@ int getOperationOption(void)
 
 string getCityName(void)
 {
-    cout << endl << "Enter name of the city: ";
+    cout << endl << "Enter name of the city:";
     string cityName;
-    cin >> cityName;
-    while (cin.fail())
-    {
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        cout << endl << "Invalid option entered. Please try again." << endl;
-        cout << "Enter name of the city: ";
-        cin >> cityName;
-    }
+    std::getline(cin, cityName);
+    std::getline(cin, cityName);
     return cityName;
 }
 
@@ -103,8 +123,25 @@ float getYPos(void)
     return yPos;
 }
 
+float getDistance(void)
+{
+    cout << endl << "Enter distance: ";
+    float distance;
+    cin >> distance;
+    while (cin.fail())
+    {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cout << endl << "Invalid option entered. Please try again." << endl;
+        cout << "Enter distance: ";
+        cin >> distance;
+    }
+    return distance;
+}
+
 void insertListRecord(cityData cityList[], string cityName, float xPos, float yPos, int& numCities)
 {
+    milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     bool duplicate = false;
     if (numCities < ARRAYSIZE)
     {
@@ -134,10 +171,16 @@ void insertListRecord(cityData cityList[], string cityName, float xPos, float yP
     {
         cout << endl << "Array is full. Please delete an entry first." << endl;
     }
+    milliseconds endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    if (timingMode == true)
+    {
+        cout << "Insert list record operation took " << endTime.count() - startTime.count() << "ms" << endl;
+    }
 }
 
 void searchListByName(cityData cityList[], string cityName, int& numCities)
 {
+    milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     bool found = false;
     for (int i = 0; i < numCities; ++i)
     {
@@ -155,10 +198,16 @@ void searchListByName(cityData cityList[], string cityName, int& numCities)
     {
         cout << "No such record exists in the existing data set" << endl;
     }
+    milliseconds endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    if (timingMode == true)
+    {
+        cout << "Search list by name operation took " << endTime.count() - startTime.count() << "ms" << endl;
+    }
 }
 
 void searchListByCoord(cityData cityList[], float xPos, float yPos, int& numCities)
 {
+    milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     bool found = false;
     for (int i = 0; i < numCities; ++i)
     {
@@ -176,10 +225,16 @@ void searchListByCoord(cityData cityList[], float xPos, float yPos, int& numCiti
     {
         cout << "No such record exists in the existing data set" << endl;
     }
+    milliseconds endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    if (timingMode == true)
+    {
+        cout << "Search list by coordinate operation took " << endTime.count() - startTime.count() << "ms" << endl;
+    }
 }
 
 void deleteListRecordByName(cityData cityList[], string cityName, int& numCities)
 {
+    milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     int index = -1;
     for (int i = 0; i < numCities; ++i)
     {
@@ -202,10 +257,16 @@ void deleteListRecordByName(cityData cityList[], string cityName, int& numCities
     {
         cout << "No such record exists in the existing data set" << endl;
     }
+    milliseconds endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    if (timingMode == true)
+    {
+        cout << "Delete list record by name operation took " << endTime.count() - startTime.count() << "ms" << endl;
+    }
 }
 
 void deleteListRecordByCoord(cityData cityList[], float xPos, float yPos, int& numCities)
 {
+    milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     int index = -1;
     for (int i = 0; i < numCities; ++i)
     {
@@ -228,13 +289,79 @@ void deleteListRecordByCoord(cityData cityList[], float xPos, float yPos, int& n
     {
         cout << "No such record exists in the existing data set" << endl;
     }
+    milliseconds endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    if (timingMode == true)
+    {
+        cout << "Delete list record by coordinate operation took " << endTime.count() - startTime.count() << "ms" << endl;
+    }
 }
 
 void printListRecords(cityData cityList[], int& numCities)
 {
+    milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     cout << endl << "Output:" << endl;
     for (int i = 0; i < numCities; i++)
     {
         cout << "City " << cityList[i].cityName << " (" << cityList[i].xPos << ", " << cityList[i].yPos << ")" << endl;
+    }
+    milliseconds endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    if (timingMode == true)
+    {
+        cout << "Print all list records operation took " << endTime.count() - startTime.count() << "ms" << endl;
+    }
+}
+
+double decToRad(double degrees)
+{
+    return degrees * (M_PI / 180.0);
+}
+
+double getDistanceBetweenCoords(double lat1, double long1, double lat2, double long2)
+{
+    double distance = ( sin(lat1) * sin(lat2) + cos(lat1) * cos(lat2) * cos(long2 - long1) );
+    distance = R * acos(distance);
+    return distance;
+}
+
+void printListWithinDistance(cityData cityList[], string cityName, float distance, int& numCities)
+{
+    milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    double lat1 = -1;
+    double long1 = -1;
+    bool found = false;
+    for (int i = 0; i < numCities; ++i)
+    {
+        if (cityList[i].cityName == cityName)
+        {
+            found = true;
+            lat1 = decToRad(cityList[i].xPos);
+            long1 = decToRad(cityList[i].yPos);
+        }
+    }
+    if (found == false)
+    {
+        cout << "No such record exists in the existing data set" << endl;
+        return;
+    }
+
+    cout << endl << "Output:" << endl;
+    found = false;
+    double lat2 = -1;
+    double long2 = -1;
+    double calculatedDistance = -1;
+    for (int i = 0; i < numCities; i++)
+    {
+        lat2 = decToRad(cityList[i].xPos);
+        long2 = decToRad(cityList[i].yPos);
+        calculatedDistance = getDistanceBetweenCoords(lat1, long1, lat2, long2);
+        if (abs(calculatedDistance <= distance) && cityName != cityList[i].cityName)
+        {
+            found = true;
+            cout << "City " << cityList[i].cityName << " (" << cityList[i].xPos << ", " << cityList[i].yPos << ")" << endl;
+        }
+    }
+    if (found == false)
+    {
+        cout << "No such record exists in the existing data set" << endl;
     }
 }

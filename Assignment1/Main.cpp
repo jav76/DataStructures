@@ -1,6 +1,6 @@
-
 #include <iostream>
 #include "Header.h"
+#include <chrono>
 
 using std::cout;
 using std::cin;
@@ -18,6 +18,8 @@ int main()
     string cityName;
     float xPos;
     float yPos;
+    float distance;
+    importDataList(citiesList, numCities);
     while (exit == false)
     {
         implementation = getImplementationOption();
@@ -57,7 +59,9 @@ int main()
                         break;
 
                     case 6: // Print records within a given distance of a specific location
-
+                        cityName = getCityName();
+                        distance = getDistance();
+                        printListWithinDistance(citiesList, cityName, distance, numCities);
                         break;
 
                     case 7:
