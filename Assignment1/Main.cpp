@@ -11,61 +11,62 @@ int main()
 {
     cityData citiesList[ARRAYSIZE];
     int numCities = 0;
-    node* head = new node();
     char implementation;
     int operation;
     bool exit = false;
     string cityName;
-    float xPos;
-    float yPos;
-    float distance;
-    importDataList(citiesList, numCities);
+    double xPos;
+    double yPos;
+    double distance;
+    importDataArray(citiesList, numCities);
+
+    linkedList list;
     while (exit == false)
     {
         implementation = getImplementationOption();
         operation = getOperationOption();
         switch (implementation)
         {
-            case 'A':
+            case 'A': // Array based list implementation 
                 switch (operation)
                 {
-                    case 1:
+                    case 1: // Insert new record
                         cityName = getCityName();
                         xPos = getXPos();
                         yPos = getYPos();
-                        insertListRecord(citiesList, cityName, xPos, yPos, numCities);
+                        insertArrayRecord(citiesList, cityName, xPos, yPos, numCities);
                         break;
 
                     case 2: // Search for record by name
                         cityName = getCityName();
-                        searchListByName(citiesList, cityName, numCities);
+                        searchArrayByName(citiesList, cityName, numCities);
                         break;
 
                     case 3: // Search for record by coordinate
                         xPos = getXPos();
                         yPos = getYPos();
-                        searchListByCoord(citiesList, xPos, yPos, numCities);
+                        searchArrayByCoord(citiesList, xPos, yPos, numCities);
                         break;
                     
                     case 4: // Delete a record by name
                         cityName = getCityName();
-                        deleteListRecordByName(citiesList, cityName, numCities);
+                        deleteArrayRecordByName(citiesList, cityName, numCities);
                         break;
 
                     case 5: // Delete a record by coordinate
                         xPos = getXPos();
                         yPos = getYPos();
-                        deleteListRecordByCoord(citiesList, xPos, yPos, numCities);
+                        deleteArrayRecordByCoord(citiesList, xPos, yPos, numCities);
                         break;
 
                     case 6: // Print records within a given distance of a specific location
                         cityName = getCityName();
                         distance = getDistance();
-                        printListWithinDistance(citiesList, cityName, distance, numCities);
+                        printArrayWithinDistance(citiesList, cityName, distance, numCities);
                         break;
 
-                    case 7:
-                        printListRecords(citiesList, numCities);
+                    case 7: // Print all records in the list
+                        printArrayRecords(citiesList, numCities);
                         break;
 
                     case 8:
@@ -73,11 +74,14 @@ int main()
                         break;
                 }
                 break;
-            case 'B':
+            case 'B': // Linked list based implentation 
                 switch (operation)
                 {
                 case 1: // Insert a record
-
+                    cityName = getCityName();
+                    xPos = getXPos();
+                    yPos = getYPos();
+                    list.insertRecord(cityName, xPos, yPos);
                     break;
 
                 case 2: // Search for record by name
@@ -100,7 +104,7 @@ int main()
                     break;
 
                 case 7: // Print all records
-
+                    list.printRecords();
                     break;
 
                 case 8:

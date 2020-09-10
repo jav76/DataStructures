@@ -14,7 +14,58 @@ using namespace std::chrono;
 
 bool timingMode = true;
 
-void importDataList(cityData cityList[], int& numCities)
+
+void linkedList::insertRecord(string cityName, double xPos, double yPos)
+{
+    node* newNode = new node;
+    newNode->next = nullptr;
+    newNode->cityName = cityName;
+    newNode->xPos = xPos;
+    newNode->yPos = yPos;
+    if (head == nullptr)
+    {
+        head = newNode;
+        tail = newNode;
+        cout << endl << "Record inserted successfully." << endl;
+    }
+    else
+    {
+        node* last = head;
+        while (last != tail)
+        {
+            if (last->cityName == cityName && last->xPos == xPos && last->yPos == yPos)
+            {
+                cout << "No need to insert again, as this record exists in the existing data set." << endl;
+                delete newNode;
+                return;
+            }
+            last = last->next;
+        }
+        tail->next = newNode;
+        tail = tail->next;
+    }
+}
+
+void linkedList::printRecords()
+{
+    if (head == nullptr)
+    {
+        cout << "Nothing in list\n";
+    }
+    else
+    {
+        node* last = head;
+        while (last != nullptr)
+        {
+            cout << "City " << last->cityName
+                << " (" << last->xPos << ", "
+                << last->yPos << ")" << endl;
+            last = last->next;
+        }
+    }
+}
+
+void importDataArray(cityData cityList[], int& numCities)
 {
     ifstream file;
     file.open("Assignment_1_ Test Data.txt", std::ios::in);
@@ -27,7 +78,7 @@ void importDataList(cityData cityList[], int& numCities)
             name.erase(std::remove(name.begin(), name.end(), '\n'), name.end());
             file >> newEntry.xPos;
             file >> newEntry.yPos;
-            insertListRecord(cityList, name, newEntry.xPos, newEntry.yPos, numCities);
+            insertArrayRecord(cityList, name, newEntry.xPos, newEntry.yPos, numCities);
         }
 
     }
@@ -91,10 +142,10 @@ string getCityName(void)
     return cityName;
 }
 
-float getXPos(void)
+double getXPos(void)
 {
     cout << endl << "Enter x coordinate of the city: ";
-    float xPos;
+    double xPos;
     cin >> xPos;
     while (cin.fail())
     {
@@ -107,10 +158,10 @@ float getXPos(void)
     return xPos;
 }
 
-float getYPos(void)
+double getYPos(void)
 {
     cout << endl << "Enter y coordinate of the city: ";
-    float yPos;
+    double yPos;
     cin >> yPos;
     while (cin.fail())
     {
@@ -123,10 +174,10 @@ float getYPos(void)
     return yPos;
 }
 
-float getDistance(void)
+double getDistance(void)
 {
     cout << endl << "Enter distance: ";
-    float distance;
+    double distance;
     cin >> distance;
     while (cin.fail())
     {
@@ -139,7 +190,7 @@ float getDistance(void)
     return distance;
 }
 
-void insertListRecord(cityData cityList[], string cityName, float xPos, float yPos, int& numCities)
+void insertArrayRecord(cityData cityList[], string cityName, double xPos, double yPos, int& numCities)
 {
     milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     bool duplicate = false;
@@ -178,7 +229,7 @@ void insertListRecord(cityData cityList[], string cityName, float xPos, float yP
     }
 }
 
-void searchListByName(cityData cityList[], string cityName, int& numCities)
+void searchArrayByName(cityData cityList[], string cityName, int& numCities)
 {
     milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     bool found = false;
@@ -205,7 +256,7 @@ void searchListByName(cityData cityList[], string cityName, int& numCities)
     }
 }
 
-void searchListByCoord(cityData cityList[], float xPos, float yPos, int& numCities)
+void searchArrayByCoord(cityData cityList[], double xPos, double yPos, int& numCities)
 {
     milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     bool found = false;
@@ -232,7 +283,7 @@ void searchListByCoord(cityData cityList[], float xPos, float yPos, int& numCiti
     }
 }
 
-void deleteListRecordByName(cityData cityList[], string cityName, int& numCities)
+void deleteArrayRecordByName(cityData cityList[], string cityName, int& numCities)
 {
     milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     int index = -1;
@@ -264,7 +315,7 @@ void deleteListRecordByName(cityData cityList[], string cityName, int& numCities
     }
 }
 
-void deleteListRecordByCoord(cityData cityList[], float xPos, float yPos, int& numCities)
+void deleteArrayRecordByCoord(cityData cityList[], double xPos, double yPos, int& numCities)
 {
     milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     int index = -1;
@@ -296,7 +347,7 @@ void deleteListRecordByCoord(cityData cityList[], float xPos, float yPos, int& n
     }
 }
 
-void printListRecords(cityData cityList[], int& numCities)
+void printArrayRecords(cityData cityList[], int& numCities)
 {
     milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     cout << endl << "Output:" << endl;
@@ -323,7 +374,7 @@ double getDistanceBetweenCoords(double lat1, double long1, double lat2, double l
     return distance;
 }
 
-void printListWithinDistance(cityData cityList[], string cityName, float distance, int& numCities)
+void printArrayWithinDistance(cityData cityList[], string cityName, double distance, int& numCities)
 {
     milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     double lat1 = -1;

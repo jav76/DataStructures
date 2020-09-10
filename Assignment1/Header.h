@@ -12,34 +12,47 @@ const double M_PI = 3.1415926535;
 struct cityData
 {
     string cityName = "";
-    float xPos = -1;
-    float yPos = -1;
+    double xPos = -1;
+    double yPos = -1;
 };
 
-class node
+class linkedList
 {
-public:
-    string cityName = "";
-    float xPos = -1;
-    float yPos = -1;
-    node* next = nullptr;
+
+    public:
+        struct node
+        {
+            string cityName = "";
+            double xPos = -1;
+            double yPos = -1;
+            node* next = nullptr;
+        };
+
+        node* head = nullptr;
+        node* tail = nullptr;
+
+        void insertRecord(string cityName, double xPos, double yPos);
+
+        void printRecords();
+
+
 };
 
-void importDataList(cityData cityList[], int& numCities);
+void importDataArray(cityData cityList[], int& numCities);
 
 char getImplementationOption(void);
 int getOperationOption(void);
 string getCityName(void);
-float getXPos(void);
-float getYPos(void);
-float getDistance(void);
+double getXPos(void);
+double getYPos(void);
+double getDistance(void);
 
-void insertListRecord(cityData cityList[], string cityName, float xPos, float yPos, int& numCities);
-void searchListByName(cityData cityList[], string cityName, int& numCities);
-void searchListByCoord(cityData cityList[], float xPos, float yPos, int& numCities);
-void deleteListRecordByName(cityData cityList[], string cityName, int& numCities);
-void deleteListRecordByCoord(cityData cityList[], float xPos, float yPos, int& numCities);
-void printListRecords(cityData cityList[], int& numCities);
+void insertArrayRecord(cityData cityList[], string cityName, double xPos, double yPos, int& numCities);
+void searchArrayByName(cityData cityList[], string cityName, int& numCities);
+void searchArrayByCoord(cityData cityList[], double xPos, double yPos, int& numCities);
+void deleteArrayRecordByName(cityData cityList[], string cityName, int& numCities);
+void deleteArrayRecordByCoord(cityData cityList[], double xPos, double yPos, int& numCities);
+void printArrayRecords(cityData cityList[], int& numCities);
 double decToRad(double degrees);
 double getDistanceBetweenCoords(double lat1, double long1, double lat2, double long2);
-void printListWithinDistance(cityData cityList[], string cityName, float distance, int& numCities);
+void printArrayWithinDistance(cityData cityList[], string cityName, double distance, int& numCities);
