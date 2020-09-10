@@ -194,6 +194,53 @@ void linkedList::deleteByCoord(double xPos, double yPos)
     }
 }
 
+void linkedList::printWithinDistance(string cityName, double distance)
+{
+    node* last = head;
+    bool found = false;
+    double lat1 = -1;
+    double long1 = -1;
+    while (last != nullptr)
+    {
+        if (last->cityName == cityName)
+        {
+            found = true;
+            lat1 = decToRad(last->xPos);
+            long1 = decToRad(last->yPos);
+        }
+        last = last->next;
+    }
+    if (found == false)
+    {
+        cout << "No such record exists in the existing data set" << endl;
+        return;
+    }
+
+    cout << endl << "Output:" << endl;
+    found = false;
+    double lat2 = -1;
+    double long2 = -1;
+    double calculatedDistance = -1;
+    last = head;
+    while (last != nullptr)
+    {
+        lat2 = decToRad(last->xPos);
+        long2 = decToRad(last->yPos);
+        calculatedDistance = getDistanceBetweenCoords(lat1, long1, lat2, long2);
+        if (abs(calculatedDistance) <= distance && cityName != last->cityName)
+        {
+            found = true;
+            cout << "City " << last->cityName << " (" << last->xPos << ", " << last->yPos << ")" << endl;
+        }
+        last = last->next;
+    }
+    if (found == false)
+    {
+        cout << "No such record exists in the existing data set" << endl;
+    }
+
+}
+
 void linkedList::printRecords()
 {
     if (head == nullptr)
@@ -207,6 +254,25 @@ void linkedList::printRecords()
         {
             cout << "City " << last->cityName << " (" << last->xPos << ", " << last->yPos << ")" << endl;
             last = last->next;
+        }
+    }
+}
+
+
+void linkedList::importData()
+{
+    ifstream file;
+    file.open("Assignment_1_ Test Data.txt", std::ios::in);
+    if (file.is_open())
+    {
+        cityData tempEntry;
+        while (!(std::getline(file, tempEntry.cityName, ':').eof()))
+        {
+            string name = tempEntry.cityName;
+            name.erase(std::remove(name.begin(), name.end(), '\n'), name.end());
+            file >> tempEntry.xPos;
+            file >> tempEntry.yPos;
+            insertRecord(name, tempEntry.xPos, tempEntry.yPos);
         }
     }
 }
@@ -226,9 +292,11 @@ void importDataArray(cityData cityList[], int& numCities)
             file >> newEntry.yPos;
             insertArrayRecord(cityList, name, newEntry.xPos, newEntry.yPos, numCities);
         }
-
     }
-
+    else
+    {
+        cout << "Error reading file" << endl;
+    }
 }
 
 char getImplementationOption(void)
@@ -551,7 +619,7 @@ void printArrayWithinDistance(cityData cityList[], string cityName, double dista
         lat2 = decToRad(cityList[i].xPos);
         long2 = decToRad(cityList[i].yPos);
         calculatedDistance = getDistanceBetweenCoords(lat1, long1, lat2, long2);
-        if (abs(calculatedDistance <= distance) && cityName != cityList[i].cityName)
+        if (abs(calculatedDistance) <= distance && cityName != cityList[i].cityName)
         {
             found = true;
             cout << "City " << cityList[i].cityName << " (" << cityList[i].xPos << ", " << cityList[i].yPos << ")" << endl;

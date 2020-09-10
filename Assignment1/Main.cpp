@@ -21,6 +21,7 @@ int main()
     importDataArray(citiesList, numCities);
 
     linkedList list;
+    list.importData();
     while (exit == false)
     {
         implementation = getImplementationOption();
@@ -101,10 +102,14 @@ int main()
                     break;
 
                 case 5: // Delete a record by coordinate
-
+                    xPos = getXPos();
+                    yPos = getYPos();
+                    list.deleteByCoord(xPos, yPos);
                     break;
                 case 6: // Print records within a given distance of a specific location
-
+                    cityName = getCityName();
+                    distance = getDistance();
+                    list.printWithinDistance(cityName, distance);
                     break;
 
                 case 7: // Print all records

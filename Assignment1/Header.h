@@ -31,11 +31,13 @@ class linkedList
         node* head = nullptr;
         node* tail = nullptr;
 
+        void importData();
         void insertRecord(string cityName, double xPos, double yPos);
         void searchByName(string cityName);
         void searchByCoord(double xPos, double yPos);
         void deleteByName(string cityName);
         void deleteByCoord(double xPos, double yPos);
+        void printWithinDistance(string cityName, double distance);
         void printRecords();
 
 
