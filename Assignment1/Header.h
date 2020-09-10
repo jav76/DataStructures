@@ -32,7 +32,9 @@ class linkedList
         node* tail = nullptr;
 
         void insertRecord(string cityName, double xPos, double yPos);
-
+        void searchByName(string cityName);
+        void searchByCoord(double xPos, double yPos);
+        void deleteByName(string cityName);
         void printRecords();
 
 

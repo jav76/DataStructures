@@ -31,7 +31,7 @@ void linkedList::insertRecord(string cityName, double xPos, double yPos)
     else
     {
         node* last = head;
-        while (last != tail)
+        while (last != nullptr)
         {
             if (last->cityName == cityName && last->xPos == xPos && last->yPos == yPos)
             {
@@ -46,6 +46,103 @@ void linkedList::insertRecord(string cityName, double xPos, double yPos)
     }
 }
 
+void linkedList::searchByName(string cityName)
+{
+    node* last = head;
+    bool found = false;
+    while (last != nullptr)
+    {
+        if (last->cityName == cityName)
+        {
+            if (found == false)
+            {
+                cout << endl << "Output: " << endl;
+            }
+            found = true;
+            cout << last->cityName << ", (" << last->xPos << ", " << last->yPos << ")" << endl;
+        }
+        last = last->next;
+    }
+    if (found == false)
+    {
+        cout << "No such record exists in the existing data set" << endl;
+    }
+}
+
+void linkedList::searchByCoord(double xPos, double yPos)
+{
+    node* last = head;
+    bool found = false;
+    while (last != nullptr)
+    {
+        if (last->xPos == xPos && last->yPos == yPos)
+        {
+            if (found == false)
+            {
+                cout << endl << "Output: " << endl;
+            }
+            found = true;
+            cout << last->cityName << ", (" << last->xPos << ", " << last->yPos << ")" << endl;
+        }
+        last = last->next;
+    }
+    if (found == false)
+    {
+        cout << "No such record exists in the existing data set" << endl;
+    }
+}
+
+void linkedList::deleteByName(string cityName)
+{
+    node* current = head;
+    node* last = head;
+    bool found = false;
+    if (head != nullptr)
+    {
+        if (head->cityName == cityName)
+        {
+            found = true;
+            head = head->next;
+            delete last;
+            current = nullptr;
+        }
+        else
+        {
+            current = head->next;
+        }
+    }
+    while (current != nullptr)
+    {
+        if (current->cityName == cityName)
+        {
+            found = true;
+            if (current == tail)
+            {
+                tail = last;
+                tail->next = nullptr;
+                delete current;
+                break;
+            }
+            else
+            {
+                last->next = current->next;
+                delete current;
+                break;
+            }
+        }
+        last = current;
+        current = current->next;
+    }
+    if (found == true)
+    {
+        cout << "Deleted entry" << endl;
+    }
+    else
+    {
+        cout << "Does not exist in current data set." << endl;
+    }
+}
+
 void linkedList::printRecords()
 {
     if (head == nullptr)
@@ -57,9 +154,7 @@ void linkedList::printRecords()
         node* last = head;
         while (last != nullptr)
         {
-            cout << "City " << last->cityName
-                << " (" << last->xPos << ", "
-                << last->yPos << ")" << endl;
+            cout << "City " << last->cityName << " (" << last->xPos << ", " << last->yPos << ")" << endl;
             last = last->next;
         }
     }

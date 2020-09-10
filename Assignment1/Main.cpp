@@ -85,15 +85,19 @@ int main()
                     break;
 
                 case 2: // Search for record by name
-
+                    cityName = getCityName();
+                    list.searchByName(cityName);
                     break;
 
                 case 3: // Search for record by coordinate
-
+                    xPos = getXPos();
+                    yPos = getYPos();
+                    list.searchByCoord(xPos, yPos);
                     break;
 
                 case 4: // Delete a record by name
-
+                    cityName = getCityName();
+                    list.deleteByName(cityName);
                     break;
 
                 case 5: // Delete a record by coordinate
