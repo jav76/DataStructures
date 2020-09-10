@@ -143,6 +143,57 @@ void linkedList::deleteByName(string cityName)
     }
 }
 
+void linkedList::deleteByCoord(double xPos, double yPos)
+{
+    node* current = head;
+    node* last = head;
+    bool found = false;
+    if (head != nullptr)
+    {
+        if (head->xPos == xPos && head->yPos == yPos)
+        {
+            found = true;
+            head = head->next;
+            delete last;
+            current = nullptr;
+        }
+        else
+        {
+            current = head->next;
+        }
+    }
+    while (current != nullptr)
+    {
+        if (current->xPos == xPos && current->yPos == yPos)
+        {
+            found = true;
+            if (current == tail)
+            {
+                tail = last;
+                tail->next = nullptr;
+                delete current;
+                break;
+            }
+            else
+            {
+                last->next = current->next;
+                delete current;
+                break;
+            }
+        }
+        last = current;
+        current = current->next;
+    }
+    if (found == true)
+    {
+        cout << "Deleted entry" << endl;
+    }
+    else
+    {
+        cout << "Does not exist in current data set." << endl;
+    }
+}
+
 void linkedList::printRecords()
 {
     if (head == nullptr)

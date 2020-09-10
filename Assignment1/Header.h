@@ -35,6 +35,7 @@ class linkedList
         void searchByName(string cityName);
         void searchByCoord(double xPos, double yPos);
         void deleteByName(string cityName);
+        void deleteByCoord(double xPos, double yPos);
         void printRecords();
 
 
