@@ -14,9 +14,10 @@ using namespace std::chrono;
 
 bool timingMode = true;
 
-
+// function to insert a record into the linked list
 void linkedList::insertRecord(string cityName, double xPos, double yPos)
 {
+    milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     node* newNode = new node;
     newNode->next = nullptr;
     newNode->cityName = cityName;
@@ -43,11 +44,19 @@ void linkedList::insertRecord(string cityName, double xPos, double yPos)
         }
         tail->next = newNode;
         tail = tail->next;
+        cout << endl << "Record inserted successfully." << endl;
+    }
+    milliseconds endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    if (timingMode == true)
+    {
+        cout << "Insert list record operation took " << endTime.count() - startTime.count() << "ms" << endl;
     }
 }
 
+// function to search the linked list for a record by name
 void linkedList::searchByName(string cityName)
 {
+    milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     node* last = head;
     bool found = false;
     while (last != nullptr)
@@ -67,10 +76,17 @@ void linkedList::searchByName(string cityName)
     {
         cout << "No such record exists in the existing data set" << endl;
     }
+    milliseconds endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    if (timingMode == true)
+    {
+        cout << "Search list by name operation took " << endTime.count() - startTime.count() << "ms" << endl;
+    }
 }
 
+// function to search the linked list for specified coordinates
 void linkedList::searchByCoord(double xPos, double yPos)
 {
+    milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     node* last = head;
     bool found = false;
     while (last != nullptr)
@@ -90,10 +106,17 @@ void linkedList::searchByCoord(double xPos, double yPos)
     {
         cout << "No such record exists in the existing data set" << endl;
     }
+    milliseconds endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    if (timingMode == true)
+    {
+        cout << "Search list by coordinate operation took " << endTime.count() - startTime.count() << "ms" << endl;
+    }
 }
 
+// function to delete a linked list item by name
 void linkedList::deleteByName(string cityName)
 {
+    milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     node* current = head;
     node* last = head;
     bool found = false;
@@ -135,16 +158,23 @@ void linkedList::deleteByName(string cityName)
     }
     if (found == true)
     {
-        cout << "Deleted entry" << endl;
+        cout << "Deleted successfully" << endl;
     }
     else
     {
-        cout << "Does not exist in current data set." << endl;
+        cout << "No such record exists in the existing data set." << endl;
+    }
+    milliseconds endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    if (timingMode == true)
+    {
+        cout << "Delete list record by name operation took " << endTime.count() - startTime.count() << "ms" << endl;
     }
 }
 
+// function to delete a linked list item by coordinate
 void linkedList::deleteByCoord(double xPos, double yPos)
 {
+    milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     node* current = head;
     node* last = head;
     bool found = false;
@@ -186,16 +216,23 @@ void linkedList::deleteByCoord(double xPos, double yPos)
     }
     if (found == true)
     {
-        cout << "Deleted entry" << endl;
+        cout << "Deleted successfully" << endl;
     }
     else
     {
-        cout << "Does not exist in current data set." << endl;
+        cout << "No such record exists in the existing data set" << endl;
+    }
+    milliseconds endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    if (timingMode == true)
+    {
+        cout << "Delete list record by coordinate operation took " << endTime.count() - startTime.count() << "ms" << endl;
     }
 }
 
+// function to print all records in the linked list within a specified distance
 void linkedList::printWithinDistance(string cityName, double distance)
 {
+    milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     node* last = head;
     bool found = false;
     double lat1 = -1;
@@ -238,9 +275,14 @@ void linkedList::printWithinDistance(string cityName, double distance)
     {
         cout << "No such record exists in the existing data set" << endl;
     }
-
+    milliseconds endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    if (timingMode == true)
+    {
+        cout << "Print all list records operation took " << endTime.count() - startTime.count() << "ms" << endl;
+    }
 }
 
+// function to print all of the items in the linked list
 void linkedList::printRecords()
 {
     if (head == nullptr)
@@ -258,7 +300,7 @@ void linkedList::printRecords()
     }
 }
 
-
+// function to import data from the test data text file into the linked list
 void linkedList::importData()
 {
     ifstream file;
@@ -277,6 +319,7 @@ void linkedList::importData()
     }
 }
 
+// function to import data from the test data text file into the array
 void importDataArray(cityData cityList[], int& numCities)
 {
     ifstream file;
@@ -299,6 +342,7 @@ void importDataArray(cityData cityList[], int& numCities)
     }
 }
 
+// function to print out the menu for the implementation choices and get input from the user
 char getImplementationOption(void)
 {
     char userOption;
@@ -321,6 +365,7 @@ char getImplementationOption(void)
 
 }
 
+// function to print out the menu for operation choices and get input from the user
 int getOperationOption(void)
 {
     int userOption;
@@ -347,6 +392,7 @@ int getOperationOption(void)
     return userOption;
 }
 
+// Get a city name input from the user
 string getCityName(void)
 {
     cout << endl << "Enter name of the city:";
@@ -356,6 +402,7 @@ string getCityName(void)
     return cityName;
 }
 
+// Get a x coordinate input from the user
 double getXPos(void)
 {
     cout << endl << "Enter x coordinate of the city: ";
@@ -372,6 +419,7 @@ double getXPos(void)
     return xPos;
 }
 
+// Get a y coordinate input from the user
 double getYPos(void)
 {
     cout << endl << "Enter y coordinate of the city: ";
@@ -388,6 +436,7 @@ double getYPos(void)
     return yPos;
 }
 
+// Get a distance input from the user
 double getDistance(void)
 {
     cout << endl << "Enter distance: ";
@@ -404,6 +453,7 @@ double getDistance(void)
     return distance;
 }
 
+// Insert a city data item into the array
 void insertArrayRecord(cityData cityList[], string cityName, double xPos, double yPos, int& numCities)
 {
     milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
@@ -439,10 +489,11 @@ void insertArrayRecord(cityData cityList[], string cityName, double xPos, double
     milliseconds endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     if (timingMode == true)
     {
-        cout << "Insert list record operation took " << endTime.count() - startTime.count() << "ms" << endl;
+        cout << "Insert array record operation took " << endTime.count() - startTime.count() << "ms" << endl;
     }
 }
 
+// Search the array for a city by name
 void searchArrayByName(cityData cityList[], string cityName, int& numCities)
 {
     milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
@@ -466,10 +517,11 @@ void searchArrayByName(cityData cityList[], string cityName, int& numCities)
     milliseconds endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     if (timingMode == true)
     {
-        cout << "Search list by name operation took " << endTime.count() - startTime.count() << "ms" << endl;
+        cout << "Search array by name operation took " << endTime.count() - startTime.count() << "ms" << endl;
     }
 }
 
+// Search the array for a city by coordinate
 void searchArrayByCoord(cityData cityList[], double xPos, double yPos, int& numCities)
 {
     milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
@@ -493,10 +545,11 @@ void searchArrayByCoord(cityData cityList[], double xPos, double yPos, int& numC
     milliseconds endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     if (timingMode == true)
     {
-        cout << "Search list by coordinate operation took " << endTime.count() - startTime.count() << "ms" << endl;
+        cout << "Search array by coordinate operation took " << endTime.count() - startTime.count() << "ms" << endl;
     }
 }
 
+// Delete an array item by name and shift array items to be contiguous 
 void deleteArrayRecordByName(cityData cityList[], string cityName, int& numCities)
 {
     milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
@@ -525,10 +578,11 @@ void deleteArrayRecordByName(cityData cityList[], string cityName, int& numCitie
     milliseconds endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     if (timingMode == true)
     {
-        cout << "Delete list record by name operation took " << endTime.count() - startTime.count() << "ms" << endl;
+        cout << "Delete array record by name operation took " << endTime.count() - startTime.count() << "ms" << endl;
     }
 }
 
+// Delete an array item by coordinate and shift aray items to be contiguous
 void deleteArrayRecordByCoord(cityData cityList[], double xPos, double yPos, int& numCities)
 {
     milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
@@ -561,6 +615,7 @@ void deleteArrayRecordByCoord(cityData cityList[], double xPos, double yPos, int
     }
 }
 
+// Print all of the records in the array
 void printArrayRecords(cityData cityList[], int& numCities)
 {
     milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
@@ -576,11 +631,13 @@ void printArrayRecords(cityData cityList[], int& numCities)
     }
 }
 
+// Convert a decimal input to radians
 double decToRad(double degrees)
 {
     return degrees * (M_PI / 180.0);
 }
 
+// Get the distance between two coordinates
 double getDistanceBetweenCoords(double lat1, double long1, double lat2, double long2)
 {
     double distance = ( sin(lat1) * sin(lat2) + cos(lat1) * cos(lat2) * cos(long2 - long1) );
@@ -588,6 +645,7 @@ double getDistanceBetweenCoords(double lat1, double long1, double lat2, double l
     return distance;
 }
 
+// Print array records within a given distance
 void printArrayWithinDistance(cityData cityList[], string cityName, double distance, int& numCities)
 {
     milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());

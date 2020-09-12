@@ -9,8 +9,6 @@ using std::string;
 
 int main()
 {
-    cityData citiesList[ARRAYSIZE];
-    int numCities = 0;
     char implementation;
     int operation;
     bool exit = false;
@@ -18,13 +16,17 @@ int main()
     double xPos;
     double yPos;
     double distance;
+
+    cityData citiesList[ARRAYSIZE];
+    int numCities = 0;
     importDataArray(citiesList, numCities);
 
     linkedList list;
     list.importData();
+
     while (exit == false)
     {
-        implementation = getImplementationOption();
+        implementation = getImplementationOption(); // Get input choices from the user
         operation = getOperationOption();
         switch (implementation)
         {
