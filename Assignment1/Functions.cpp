@@ -285,6 +285,7 @@ void linkedList::printWithinDistance(string cityName, double distance)
 // function to print all of the items in the linked list
 void linkedList::printRecords()
 {
+    milliseconds startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
     if (head == nullptr)
     {
         cout << "Nothing in list\n";
@@ -297,6 +298,11 @@ void linkedList::printRecords()
             cout << "City " << last->cityName << " (" << last->xPos << ", " << last->yPos << ")" << endl;
             last = last->next;
         }
+    }
+    milliseconds endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    if (timingMode == true)
+    {
+        cout << "Print all list records operation took " << endTime.count() - startTime.count() << "ms" << endl;
     }
 }
 
@@ -686,5 +692,10 @@ void printArrayWithinDistance(cityData cityList[], string cityName, double dista
     if (found == false)
     {
         cout << "No such record exists in the existing data set" << endl;
+    }
+    milliseconds endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+    if (timingMode == true)
+    {
+        cout << "Print all list records operation took " << endTime.count() - startTime.count() << "ms" << endl;
     }
 }
