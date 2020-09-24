@@ -8,16 +8,7 @@ find a word ladder between them such that each word 'step' of the ladder
 has one character difference from the last step. 
 
 */
-
-
-
-#include <iostream>
-#include <string>
-#include <vector>
-#include <map>
 #include "Header.h"
-
-
 using namespace dataStructures;
 
 int main()
@@ -38,4 +29,5 @@ int main()
     {
         cout << *i << std::endl;
     }
+    return 0;
 }

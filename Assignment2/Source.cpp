@@ -1,8 +1,4 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include <fstream>
-#include <map>
+
 #include "Header.h"
 
 namespace dataStructures
@@ -85,7 +81,7 @@ namespace dataStructures
         {
             if (*it.first != *it.second)
             {
-                ++distance;
+                ++distance; // Increase distance for each character that doesn't match between words
             }
         }
         return distance;
@@ -97,10 +93,11 @@ namespace dataStructures
         int endDistance = 0;
         for (map<string, int>::iterator i = subDict.begin(); i != subDict.end(); ++i)
         {
-            if (getHammingDistance(word, i->first) == 1)
+            if (getHammingDistance(word, i->first) == 1) // Find words with 1 distance from given 'word'
             {
                 endDistance = getHammingDistance(i->first, endWord);
-                options.insert({ endDistance, i->first });
+                options.insert({ endDistance, i->first }); 
+                // Insert into map such that words are sorted by shortest distance to endword to try and target finding the endword faster
             }
         }
         /*
