@@ -1,3 +1,16 @@
+/*
+Data structures 3460:316
+Assignment 2
+Jaret Varn, jav76@zips.uakron.edu
+
+This program takes two words given by the user and tries to recursively
+find a word ladder between them such that each word 'step' of the ladder
+has one character difference from the last step. 
+
+*/
+
+
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -13,19 +26,16 @@ int main()
     cout << "Importing dictionary file...";
     importDictionary(dictionary);
     cout << "\nDone\n";
+    bool ladderFound = false;
 
-    while (true)
+    map<string, int>::iterator startWord = getStartWord(dictionary);
+    map<string, int> subDict = getSubDict(dictionary, startWord->first);
+    string endWord = getEndWord(subDict);
+    cout << "Searcing for word ladder...\n";
+    vector<string> ladder;
+    vector<string> result = getWordLadder(startWord->first, endWord, ladder, subDict, ladderFound);
+    for (vector<string>::iterator i = result.begin(); i != result.end(); ++i)
     {
-        map<string, int>::iterator startWord = getStartWord(dictionary);
-        string endWord = getEndWord(dictionary);
-        map<string, int> subDict = getSubDict(dictionary, startWord->first);
-        
-        for (auto it = subDict.begin(); it != subDict.end(); ++it)
-        {
-            cout << it->first << std::endl;
-        }
+        cout << *i << std::endl;
     }
 }
-
-
-
