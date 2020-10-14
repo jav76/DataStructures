@@ -18,16 +18,31 @@ int main()
     importDictionary(dictionary);
     cout << "\nDone\n";
     bool ladderFound = false;
+    map<string, int>::iterator startWord;
+    map<string, int> subDict;
+    string endWord;
 
-    map<string, int>::iterator startWord = getStartWord(dictionary);
-    map<string, int> subDict = getSubDict(dictionary, startWord->first);
-    string endWord = getEndWord(subDict);
-    cout << "Searcing for word ladder...\n";
-    vector<string> ladder;
-    vector<string> result = getWordLadder(startWord->first, endWord, ladder, subDict, ladderFound);
-    for (vector<string>::iterator i = result.begin(); i != result.end(); ++i)
+    while (true)
     {
-        cout << *i << std::endl;
+        startWord = getStartWord(dictionary);
+        if (startWord->first == "exit" || startWord->first == "quit") // Allow the option to exit program
+        {
+            return 0;
+        }
+        subDict = getSubDict(dictionary, startWord->first);
+        endWord = getEndWord(subDict);
+        cout << "Searcing for word ladder...\n";
+        vector<string> ladder;
+
+        bool result = getWordLadderb(endWord, startWord->first, ladder, subDict);
+        if (result)
+        {
+            cout << "Ladder found" << std::endl;
+        }
+        else
+        {
+            cout << "No ladder found" << std::endl;
+        }
     }
     return 0;
 }

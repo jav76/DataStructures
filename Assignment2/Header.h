@@ -41,8 +41,9 @@ namespace dataStructures
 	//post: Creates a map<int, string> of words that have 1 character difference from the string word argument, and sorts them by least distance from the endWord string and returns that map
 	multimap<int, string> getStepOptions(string word, string endWord, map<string, int>& subDict);
 
-	//pre: Takes a string current word, endWord, vector<string> ladder, map<string, int> dictionary with words of same length as word and endWord, and a boolean ladderFound
+	//pre: Takes a string current word, endWord, vector<string> ladder, map<string, int> dictionary with words of same length as word and endWord
 	//post: Pushes the string current word onto the ladder vector, and if that word is the endWord, a word ladder solution has been found
 	//		and can be returned. Otherwise, for recursively calls itself with every word valid word choice given by getStepOptions that has not been tried yet.
-	vector<string> getWordLadder(string current, string endWord, vector<string> ladder, map<string, int>& subDict, bool& ladderFound);
+	//		Returns true if a ladder has been found, otherwise returns false.
+	bool getWordLadderb(string current, string endWord, vector<string> ladder, map<string, int>& subDict);
 }

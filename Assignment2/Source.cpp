@@ -100,7 +100,7 @@ namespace dataStructures
                 // Insert into map such that words are sorted by shortest distance to endword to try and target finding the endword faster
             }
         }
-        /*
+        /* List possible word choices and their distance to the end word
         for (auto i = options.begin(); i != options.end(); ++i)
         {
             cout << "distance: " << i->first << " option: " << i->second << std::endl;
@@ -108,39 +108,39 @@ namespace dataStructures
         */
         return options;
     }
-    
-    vector<string> getWordLadder(string current, string endWord, vector<string> ladder, map<string, int>& subDict, bool &ladderFound)
+
+    bool getWordLadderb(string current, string endWord, vector<string> ladder, map<string, int>& subDict)
     {
         ladder.push_back(current);
         if (current == endWord)
         {
-            cout << "Found ladder" << std::endl;
-            ladderFound = true;
-            return ladder;
+            cout << current << std::endl;
+            return true;
         }
         multimap<int, string> options = getStepOptions(current, endWord, subDict);
         if (options.size() > 1)
         {
             for (multimap<int, string>::iterator i = options.begin(); i != options.end(); ++i)
             {
-                if (ladderFound == false)
+                bool used = false;
+                for (vector<string>::iterator j = ladder.begin(); j != ladder.end(); ++j)
                 {
-                    bool used = false;
-                    for (vector<string>::iterator j = ladder.begin(); j != ladder.end(); ++j)
+                    if (i->second == *j)
                     {
-                        if (i->second == *j)
-                        {
-                            used = true;
-                            break;
-                        }
+                        used = true;
+                        break;
                     }
-                    if (used == false)
+                }
+                if (used == false)
+                {
+                    if (getWordLadderb(i->second, endWord, ladder, subDict) == true)
                     {
-                        //cout << std::endl << current << std::endl;
-                        return getWordLadder(i->second, endWord, ladder, subDict, ladderFound);
+                        cout << current << std::endl;
+                        return true;
                     }
                 }
             }
         }
+        return false;
     }
 }
