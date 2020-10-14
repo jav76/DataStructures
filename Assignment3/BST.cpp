@@ -69,6 +69,43 @@ void binarySearchTree::insertNode(double val)
 	}
 }
 
+void binarySearchTree::deleteNode(double val)
+{
+	node* toDelete = this->findKey(val);
+	if (toDelete != nullptr)
+	{
+		if (toDelete->leftChild == nullptr && toDelete->rightChild == nullptr)
+		{
+			delete toDelete;
+		}
+		else
+		{
+			if (toDelete->leftChild == nullptr && toDelete->rightChild != nullptr)
+			{
+				toDelete = toDelete->rightChild;
+			}
+			else if (toDelete->leftChild != nullptr && toDelete->rightChild == nullptr)
+			{
+				toDelete = toDelete->leftChild;
+			}
+			else
+			{
+				// we gotta do some fucky shit here
+			}
+		}
+	}
+}
+
+void binarySearchTree::displayTree()
+{
+	node* current = root;
+	int height = 0;
+	while (current != nullptr)
+	{
+		
+	}
+}
+
 void binarySearchTree::printTree()
 {
 	std::cout << "Current contents of this tree in order:\n";
@@ -91,6 +128,37 @@ void binarySearchTree::printTree()
 			current = stack.top();
 			stack.pop();
 			std::cout << current->key << "  ";
+			current = current->rightChild;
+		}
+	}
+}
+
+void binarySearchTree::expensivePath(double val)
+{
+	node* current = root;
+	double cost = 0;
+	node* endNode = this->findKey(val);
+	if (endNode == nullptr)
+	{
+		std::cout << val << " does not exist in this tree\n";
+	}
+	std::cout << std::endl << "path: ";
+	while (current != nullptr)
+	{
+		cost = cost + current->key;
+		std::cout << current->key;
+		if (current == endNode)
+		{
+			std::cout << "\nThe cost from root to " << val << " is " << cost << std::endl;
+			break;
+		}
+		std::cout << " -> ";
+		if (current->key > val)
+		{
+			current = current->leftChild;
+		}
+		else
+		{
 			current = current->rightChild;
 		}
 	}

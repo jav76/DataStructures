@@ -13,7 +13,6 @@ class binarySearchTree
 			double key;
 			node* leftChild;
 			node* rightChild;
-
 		};
 		node* root;
 
@@ -23,6 +22,6 @@ class binarySearchTree
 		void deleteNode(double);
 		void displayTree();
 		void printTree();
-		int expensivePath();
+		void expensivePath(double);
 
 };

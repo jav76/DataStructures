@@ -19,7 +19,7 @@ int main()
             {
                 double key = getKey();
                 binarySearchTree::node* found = tree.findKey(key);
-                if (found)
+                if (found != nullptr)
                 {
                     std::cout << key << " exists in the tree.\n";
                 }
@@ -37,12 +37,16 @@ int main()
             }
 
             case 3:
-                //tree.deleteNode(getKey());
+            {
+                tree.deleteNode(getKey());
                 break;
+            }
 
             case 4:
+            {
                 // unimplemented
                 break;
+            }
 
             case 5:
             {
@@ -51,12 +55,16 @@ int main()
             }
 
             case 6:
-                // unimplemented
+            {
+                tree.expensivePath(getKey());
                 break;
+            }
 
             case 7:
+            {
                 quit = true;
                 break;
+            }
         }
 
     }
