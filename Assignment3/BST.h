@@ -7,7 +7,6 @@
 class binarySearchTree
 {
 	public:
-		
 		struct node
 		{
 			double key;
@@ -18,10 +17,10 @@ class binarySearchTree
 
 		binarySearchTree();
 		node* findKey(double);
+		node* findParent(double);
 		void insertNode(double);
 		void deleteNode(double);
 		void displayTree();
 		void printTree();
 		void expensivePath(double);
-
 };

@@ -27,6 +27,29 @@ binarySearchTree::node* binarySearchTree::findKey(double val)
 	return nullptr;
 }
 
+binarySearchTree::node* binarySearchTree::findParent(double val)
+{
+	node* prev = root;
+	node* current = root;
+	while (current != nullptr)
+	{
+		if (current->key == val)
+		{
+			return prev;
+		}
+		if (current->key > val)
+		{
+			prev = current;
+			current = current->leftChild;
+		}
+		else
+		{
+			prev = current;
+			current = current->rightChild;
+		}
+	}
+}
+
 void binarySearchTree::insertNode(double val)
 {
 	node* newNode = new node;
@@ -74,23 +97,74 @@ void binarySearchTree::deleteNode(double val)
 	node* toDelete = this->findKey(val);
 	if (toDelete != nullptr)
 	{
-		if (toDelete->leftChild == nullptr && toDelete->rightChild == nullptr)
+		if (toDelete->leftChild == nullptr && toDelete->rightChild == nullptr) // Node to be deleted is a leaf node
 		{
-			delete toDelete;
-		}
-		else
-		{
-			if (toDelete->leftChild == nullptr && toDelete->rightChild != nullptr)
+			if (toDelete == root)
 			{
-				toDelete = toDelete->rightChild;
+				root = nullptr;
 			}
-			else if (toDelete->leftChild != nullptr && toDelete->rightChild == nullptr)
+			std::cout << "Deleted " << toDelete->key << std::endl;
+			node* parent = this->findParent(val);
+			if (parent->rightChild == toDelete)
 			{
-				toDelete = toDelete->leftChild;
+				parent->rightChild = nullptr;
 			}
 			else
 			{
-				// we gotta do some fucky shit here
+				parent->leftChild = nullptr;
+			}
+		}
+		else
+		{
+			if (toDelete->leftChild == nullptr && toDelete->rightChild != nullptr) // Node to be deleted has one right child
+			{
+				node* parent = this->findParent(val);
+				if (parent->rightChild == toDelete)
+				{
+					parent->rightChild = toDelete->rightChild;
+				}
+				else
+				{
+					parent->leftChild = toDelete->rightChild;
+				}
+				std::cout << "Deleted1 " << toDelete->key << std::endl;
+				delete toDelete;
+			}
+			else if (toDelete->leftChild != nullptr && toDelete->rightChild == nullptr) // Node to be deleted has one left child
+			{
+				node* parent = this->findParent(val);
+				if (parent->rightChild == toDelete)
+				{
+					parent->rightChild = toDelete->leftChild;
+				}
+				else
+				{
+					parent->leftChild = toDelete->leftChild;
+				}
+				std::cout << "Deleted2 " << toDelete->key << std::endl;
+				delete toDelete;
+			}
+			else // Node to be deleted has 2 children
+			{
+				node* parent = nullptr;
+				node* temp;
+				node* current = root;
+
+				temp = current->rightChild;
+				while (temp->leftChild != nullptr)
+				{
+					parent = temp;
+					temp = temp->leftChild;
+				}
+				if (parent != nullptr)
+					parent->leftChild = temp->rightChild;
+				else
+				{
+					current->rightChild = temp->rightChild;
+				}
+				current->key = temp->key;
+				std::cout << "Deleted3 " << temp->key << std::endl;
+				delete temp;
 			}
 		}
 	}
