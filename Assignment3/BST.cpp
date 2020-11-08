@@ -1,6 +1,5 @@
 #include "BST.h"
 
-
 binarySearchTree::binarySearchTree()
 {
 	root = nullptr;
@@ -11,7 +10,7 @@ binarySearchTree::node* binarySearchTree::findKey(double val)
 	node* current = root;
 	while (current != nullptr)
 	{
-		if (current->key == val)
+		if (current->key == val) // The key was found
 		{
 			return current;
 		}
@@ -24,7 +23,7 @@ binarySearchTree::node* binarySearchTree::findKey(double val)
 			current = current->rightChild;
 		}
 	}
-	return nullptr;
+	return nullptr; // The key was not found; it does not exist in the tree
 }
 
 binarySearchTree::node* binarySearchTree::findParent(double val)
@@ -35,7 +34,7 @@ binarySearchTree::node* binarySearchTree::findParent(double val)
 	{
 		if (current->key == val)
 		{
-			return prev;
+			return prev; // When a child with the key is found, the previous node is it's parent
 		}
 		if (current->key > val)
 		{
@@ -62,6 +61,7 @@ void binarySearchTree::insertNode(double val)
 	if (current == nullptr)
 	{
 		root = newNode;
+		std::cout << "Inserted " << val << std::endl;
 		return;
 	}
 	while (current != nullptr)
@@ -71,12 +71,12 @@ void binarySearchTree::insertNode(double val)
 			std::cout << val << " already exists in this BST.\n";
 			break;
 		}
-		if (current->key > val)
+		if (current->key > val) // If the current key is > val, we need to go left
 		{
 			last = current;
 			current = current->leftChild;
 		}
-		else
+		else // If the current key is < val, we need to go right
 		{
 			last = current;
 			current = current->rightChild;
@@ -85,10 +85,16 @@ void binarySearchTree::insertNode(double val)
 	if (val < last->key)
 	{
 		last->leftChild = newNode;
+		std::cout << "Inserted " << val << std::endl;
+	}
+	else if (val > last->key)
+	{
+		last->rightChild = newNode;
+		std::cout << "Inserted " << val << std::endl;
 	}
 	else
 	{
-		last->rightChild = newNode;
+		delete newNode; // Node already exists, delete the newNode that was allocated
 	}
 }
 
@@ -127,7 +133,7 @@ void binarySearchTree::deleteNode(double val)
 				{
 					parent->leftChild = toDelete->rightChild;
 				}
-				std::cout << "Deleted1 " << toDelete->key << std::endl;
+				std::cout << "Deleted " << toDelete->key << std::endl;
 				delete toDelete;
 			}
 			else if (toDelete->leftChild != nullptr && toDelete->rightChild == nullptr) // Node to be deleted has one left child
@@ -141,14 +147,14 @@ void binarySearchTree::deleteNode(double val)
 				{
 					parent->leftChild = toDelete->leftChild;
 				}
-				std::cout << "Deleted2 " << toDelete->key << std::endl;
+				std::cout << "Deleted " << toDelete->key << std::endl;
 				delete toDelete;
 			}
 			else // Node to be deleted has 2 children
 			{
 				node* parent = nullptr;
 				node* temp;
-				node* current = root;
+				node* current = toDelete;
 
 				temp = current->rightChild;
 				while (temp->leftChild != nullptr)
@@ -157,32 +163,56 @@ void binarySearchTree::deleteNode(double val)
 					temp = temp->leftChild;
 				}
 				if (parent != nullptr)
+				{
 					parent->leftChild = temp->rightChild;
+				}
 				else
 				{
 					current->rightChild = temp->rightChild;
 				}
 				current->key = temp->key;
-				std::cout << "Deleted3 " << temp->key << std::endl;
+				std::cout << "Deleted " << val << std::endl;
 				delete temp;
 			}
 		}
 	}
+	else
+	{
+		std::cout << val << " does not exist in the tree" << std::endl;
+	}
 }
 
-void binarySearchTree::displayTree()
+void binarySearchTree::displayTree(int currentHeight, node* currentNode)
 {
-	node* current = root;
-	int height = 0;
-	while (current != nullptr)
+	if (currentNode != nullptr)
 	{
 		
+		if (currentNode->rightChild != nullptr)
+		{
+			++currentHeight;
+			this->displayTree(currentHeight, currentNode->rightChild);
+		}
+		if (currentHeight != 0)
+		{
+			std::cout << std::setw(currentHeight * 4) << ' ';
+		}
+		if (currentNode->rightChild != nullptr)
+		{
+			std::cout << " /\n" << std::setw(currentHeight * 4) << ' ';
+		}
+		std::cout << currentNode->key << std::endl;
+		if (currentNode->leftChild != nullptr)
+		{
+			++currentHeight;
+			std::cout << std::setw(currentHeight * 4) << ' ' << " \\\n";
+			this->displayTree(currentHeight, currentNode->leftChild);
+		}
 	}
 }
 
 void binarySearchTree::printTree()
 {
-	std::cout << "Current contents of this tree in order:\n";
+	std::cout << "Current contents of this tree from highest to lowest:\n";
 	node* current = root;
 	std::stack<node*> stack;
 	while (true)
@@ -190,7 +220,7 @@ void binarySearchTree::printTree()
 		if (current != nullptr)
 		{
 			stack.push(current);
-			current = current->leftChild;
+			current = current->rightChild;
 		}
 		else
 		{
@@ -202,7 +232,7 @@ void binarySearchTree::printTree()
 			current = stack.top();
 			stack.pop();
 			std::cout << current->key << "  ";
-			current = current->rightChild;
+			current = current->leftChild;
 		}
 	}
 }

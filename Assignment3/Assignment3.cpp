@@ -1,8 +1,26 @@
+/*
+Data structures 3460:316
+Assignment 3
+Jaret Varn, jav76@zips.uakron.edu
+
+This program implements a binary search tree. 
+The tree is capable of inserting nodes, deleting nodes, searching for nodes,
+printing contents of the tree from highest to lowest, displaying the tree structure,
+and summing the nodes on the path to a specified key.
+
+*/
+
 #include <iostream>
 #include "BST.h"
 
+
+// Print the menu of options
 void printMenu();
+
+// Get a user choice from the options menu
 int getChoice();
+
+// Get a user choice of a key value
 double getKey();
 
 int main()
@@ -30,37 +48,37 @@ int main()
                 break;
             }
 
-            case 2:
+            case 2: // Insert a new node
             {
                 tree.insertNode(getKey());
                 break;
             }
 
-            case 3:
+            case 3: // Delete a node
             {
                 tree.deleteNode(getKey());
                 break;
             }
 
-            case 4:
+            case 4: // Display the tree structure
             {
-                // unimplemented
+                tree.displayTree(0, tree.root);
                 break;
             }
 
-            case 5:
+            case 5: // Print the contents of the tree from highest -> lowest
             {
                 tree.printTree();
                 break;
             }
 
-            case 6:
+            case 6: // Sum the nodes on the path to a key
             {
                 tree.expensivePath(getKey());
                 break;
             }
 
-            case 7:
+            case 7: // Quit
             {
                 quit = true;
                 break;
