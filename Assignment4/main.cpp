@@ -1,6 +1,5 @@
 #include "sorting.h"
 
-
 int main()
 {
     int choice;
@@ -8,70 +7,88 @@ int main()
     {
         
         choice = getChoice();
-        //choice = 20;
 
-        vector<int> unsorted = genData(choice);
-        
-
-        /*
-        for (vector<int>::iterator begin = unsorted.begin(); begin != unsorted.end(); ++begin)
+        switch (choice)
         {
-            cout << *begin << endl;
+            case 1: // 1k
+            {
+                const int SIZE = 1000;
+                int original[SIZE];
+                int toSort[SIZE];
+                int temp[SIZE];
+                race(original, toSort, temp, SIZE, true);
+                race(original, toSort, temp, SIZE, false);
+
+                break;
+            }
+            case 2: // 5k
+            {
+                const int SIZE = 5000;
+                int original[SIZE];
+                int toSort[SIZE];
+                int temp[SIZE];
+                race(original, toSort, temp, SIZE, true);
+                race(original, toSort, temp, SIZE, false);
+
+                break;
+            }
+            case 3: // 10k
+            {
+                const int SIZE = 10000;
+                int original[SIZE];
+                int toSort[SIZE];
+                int temp[SIZE];
+                race(original, toSort, temp, SIZE, true);
+                race(original, toSort, temp, SIZE, false);
+
+                break;
+            }
+            case 4: // 50k
+            {
+                const int SIZE = 50000;
+                int original[SIZE];
+                int toSort[SIZE];
+                int temp[SIZE];
+                race(original, toSort, temp, SIZE, true);
+                race(original, toSort, temp, SIZE, false);
+
+                break;
+            }
+            case 5: // 75k
+            {
+                const int SIZE = 75000;
+                int original[SIZE];
+                int toSort[SIZE];
+                int temp[SIZE];
+                race(original, toSort, temp, SIZE, true);
+                race(original, toSort, temp, SIZE, false);
+
+                break;
+            }
+            case 6: // 100k
+            {
+                const int SIZE = 100000;
+                int original[SIZE];
+                int toSort[SIZE];
+                int temp[SIZE];
+                race(original, toSort, temp, SIZE, true);
+                race(original, toSort, temp, SIZE, false);
+
+                break;
+            }
+            case 7: // 500k
+            {
+                const int SIZE = 500000;
+                int original[SIZE];
+                int toSort[SIZE];
+                int temp[SIZE];
+                race(original, toSort, temp, SIZE, true);
+                race(original, toSort, temp, SIZE, false);
+
+                break;
+            }
         }
-        */
-
-        vector<int> toSort(unsorted);
-
-        cout << "\n\n\n\n\n\n\n\n";
-
-        vector<int> sorted = bubbleSort(toSort);
-
-        /*
-        for (vector<int>::iterator begin = sorted.begin(); begin != sorted.end(); ++begin)
-        {
-            cout << *begin << endl;
-        }
-        */
 
     }
-}
-
-
-int getChoice()
-{
-    cout << "1) 1000" << endl;
-    cout << "2) 5000" << endl;
-    cout << "3) 10,000" << endl;
-    cout << "4) 50,000" << endl;
-    cout << "5) 75,000" << endl;
-    cout << "6) 100,000" << endl;
-    cout << "7) 500,000" << endl;
-    cout << "Enter the size of the dataset to test: ";
-
-    int choice;
-    cin >> choice;
-    while (cin.fail() || choice < 1 || choice > 7)
-    {
-        cin.clear();
-        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        cout << endl << "Invalid option. Please try again." << endl;
-        cin >> choice;
-    }
-    switch (choice)
-    {
-        case 1:
-            return 1000;
-        case 2:
-            return 5000;
-        case 3:
-            return 10000;
-        case 4:
-            return 50000;
-        case 5:
-            return 75000;
-        case 6:
-            return 100000;
-        case 7:
-            return 500000;
-    }
+    return 0;
 }
