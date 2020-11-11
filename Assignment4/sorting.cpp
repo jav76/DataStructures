@@ -1,11 +1,35 @@
 #include "sorting.h"
 
+int getChoice()
+{
+	cout << endl;
+	cout << "1) 1000" << endl;
+	cout << "2) 5000" << endl;
+	cout << "3) 10,000" << endl;
+	cout << "4) 50,000" << endl;
+	cout << "5) 75,000" << endl;
+	cout << "6) 100,000" << endl;
+	cout << "7) 500,000" << endl;
+	cout << "Enter the size of the dataset to test: ";
+
+	int choice;
+	cin >> choice;
+	while (cin.fail() || choice < 1 || choice > 7)
+	{
+		cin.clear();
+		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		cout << endl << "Invalid option. Please try again." << endl;
+		cin >> choice;
+	}
+	return choice;
+}
+
 void genData(int* data, int size)
 {
 	srand(time(NULL));
 	for (int i = 0; i < size; ++i)
 	{
-		data[i] = rand() % 2147483647;
+		data[i] = rand() % 2147483647; // random number from 0 - 2147483646
 	}
 }
 
@@ -22,6 +46,129 @@ void copyArray(int* source, int* dest, int size)
 	for (int i = 0; i < size; ++i)
 	{
 		dest[i] = source[i];
+	}
+}
+
+void race(int* original, int* toSort, int* temp, int size, bool sorted)
+{
+	genData(original, size);
+	copyArray(original, toSort, size);
+	if (sorted == true) // If testing with sorted data, pre-sort the array using a quicksort
+	{
+		quickSortMid(toSort, 0, size - 1);
+		cout << endl << "Testing sorts with pre-sorted data" << endl;
+	}
+	else
+	{
+		cout << endl << "Testing sorts with random data" << endl;
+	}
+	multimap<int, string> results;
+	pair<int, string> resultEntry;
+	milliseconds startTime;
+	milliseconds endTime;
+	int place = 1;
+
+	cout << endl << "Timing O(n^2) sorts..." << endl;
+
+	startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+	bubbleSort(toSort, size);
+	endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+	resultEntry = { abs(startTime - endTime).count(), "Bubble sort" };
+	results.insert(resultEntry);
+
+	if (sorted == false) // If testing using random data, the original data set is copied to a temp array for each sorting algorithm so that they are all tested using the same data
+	{
+		copyArray(original, toSort, size);
+	}
+	startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+	insertionSort(toSort, size);
+	endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+	resultEntry = { abs(startTime - endTime).count(), "Insertion sort" };
+	results.insert(resultEntry);
+
+	if (sorted == false)
+	{
+		copyArray(original, toSort, size);
+	}
+	startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+	selectionSort(toSort, size);
+	endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+	resultEntry = { abs(startTime - endTime).count(), "Selection sort" };
+	results.insert(resultEntry);
+
+	cout << "Results for O(n^2) sorts:" << endl;
+
+
+	for (multimap<int, string>::iterator i = results.begin(); i != results.end(); ++i)
+	{
+		if (place == 1)
+		{
+			cout << "1st place: ";
+		}
+		else if (place == 2)
+		{
+			cout << "2nd place: ";
+		}
+		else
+		{
+			cout << "3rd place: ";
+		}
+		cout << i->second << " " << i->first << "ms" << endl;
+		++place;
+	}
+	results.clear();
+
+	cout << endl << "Timing O(nlogn) sorts..." << endl;
+
+	if (sorted == false)
+	{
+		copyArray(original, toSort, size);
+	}
+	startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+	mergeSort(toSort, temp, 0, size - 1);
+	endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+	resultEntry = { abs(startTime - endTime).count(), "Merge sort" };
+	results.insert(resultEntry);
+
+	if (sorted == false)
+	{
+		copyArray(original, toSort, size);
+	}
+	startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+	quickSortMid(toSort, 0, size - 1);
+	endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+	resultEntry = { abs(startTime - endTime).count(), "Quick sort (middle pivot)" };
+	results.insert(resultEntry);
+
+	if (sorted == false)
+	{
+		copyArray(original, toSort, size);
+	}
+	startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+	quickSortFirst(toSort, 0, size - 1);
+	endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+	resultEntry = { abs(startTime - endTime).count(), "Quick sort (first pivot)" };
+	results.insert(resultEntry);
+
+	cout << endl << "Results for O(nlogn) sorts:" << endl;
+
+	place = 1;
+	for (multimap<int, string>::iterator i = results.begin(); i != results.end(); ++i)
+	{
+		if (place == 1)
+		{
+			cout << "1st place: ";
+		}
+		else if (place == 2)
+		{
+			cout << "2nd place: ";
+		}
+		else
+		{
+			cout << "3rd place: ";
+		}
+		cout << i->second << " " << i->first << "ms" << endl;
+		++place;
 	}
 }
 
@@ -191,152 +338,4 @@ void quickSortFirst(int* data, int left, int right)
 		quickSortFirst(data, left, pivot - 1);
 		quickSortFirst(data, pivot, right);
 	}
-}
-
-
-void race(int* original, int* toSort, int* temp, int size, bool sorted)
-{
-	genData(original, size);
-	copyArray(original, toSort, size);
-	if (sorted == true)
-	{
-		quickSortMid(toSort, 0, size - 1);
-		cout << endl << "Testing sorts with pre-sorted data" << endl;
-	}
-	else
-	{
-		cout << endl << "Testing sorts with random data" << endl;
-	}
-	multimap<int, string> results;
-	pair<int, string> resultEntry;
-	milliseconds startTime;
-	milliseconds endTime;
-	int place = 1;
-
-	cout << endl << "Timing O(n^2) sorts..." << endl;
-
-	startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-	bubbleSort(toSort, size);
-	endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-	resultEntry = { abs(startTime - endTime).count(), "Bubble sort" };
-	results.insert(resultEntry);
-
-	if (sorted == false)
-	{
-		copyArray(original, toSort, size);
-	}
-	startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-	insertionSort(toSort, size);
-	endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-	resultEntry = { abs(startTime - endTime).count(), "Insertion sort" };
-	results.insert(resultEntry);
-
-	if (sorted == false)
-	{
-		copyArray(original, toSort, size);
-	}
-	startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-	selectionSort(toSort, size);
-	endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-	resultEntry = { abs(startTime - endTime).count(), "Selection sort" };
-	results.insert(resultEntry);
-
-	cout << "Results for O(n^2) sorts:" << endl;
-
-	
-	for (multimap<int, string>::iterator i = results.begin(); i != results.end(); ++i)
-	{
-		if (place == 1)
-		{
-			cout << "1st place: ";
-		}
-		else if (place == 2)
-		{
-			cout << "2nd place: ";
-		}
-		else
-		{
-			cout << "3rd place: ";
-		}
-		cout << i->second << " " << i->first << "ms" << endl;
-		++place;
-	}
-	results.clear();
-
-	cout << endl << "Timing O(nlogn) sorts..." << endl;
-
-	if (sorted == false)
-	{
-		copyArray(original, toSort, size);
-	}
-	startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-	mergeSort(toSort, temp, 0, size - 1);
-	endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-	resultEntry = { abs(startTime - endTime).count(), "Merge sort" };
-	results.insert(resultEntry);
-
-	if (sorted == false)
-	{
-		copyArray(original, toSort, size);
-	}
-	startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-	quickSortMid(toSort, 0, size - 1);
-	endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-	resultEntry = { abs(startTime - endTime).count(), "Quick sort (middle pivot)" };
-	results.insert(resultEntry);
-
-	if (sorted == false)
-	{
-		copyArray(original, toSort, size);
-	}
-	startTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-	quickSortFirst(toSort, 0, size - 1);
-	endTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-	resultEntry = { abs(startTime - endTime).count(), "Quick sort (first pivot)" };
-	results.insert(resultEntry);
-
-	cout << endl << "Results for O(nlogn) sorts:" << endl;
-
-	place = 1;
-	for (multimap<int, string>::iterator i = results.begin(); i != results.end(); ++i)
-	{
-		if (place == 1)
-		{
-			cout << "1st place: ";
-		}
-		else if (place == 2)
-		{
-			cout << "2nd place: ";
-		}
-		else
-		{
-			cout << "3rd place: ";
-		}
-		cout << i->second << " " << i->first << "ms" << endl;
-		++place;
-	}
-}
-
-int getChoice()
-{
-	cout << endl;
-	cout << "1) 1000" << endl;
-	cout << "2) 5000" << endl;
-	cout << "3) 10,000" << endl;
-	cout << "4) 50,000" << endl;
-	cout << "5) 75,000" << endl;
-	cout << "6) 100,000" << endl;
-	cout << "7) 500,000" << endl;
-	cout << "Enter the size of the dataset to test: ";
-
-	int choice;
-	cin >> choice;
-	while (cin.fail() || choice < 1 || choice > 7)
-	{
-		cin.clear();
-		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		cout << endl << "Invalid option. Please try again." << endl;
-		cin >> choice;
-	}
-	return choice;
 }
